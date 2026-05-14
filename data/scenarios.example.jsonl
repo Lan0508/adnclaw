@@ -1,0 +1,2 @@
+{"id": "ex-001", "text": "用户要在内网用 Helm 部署应用并做版本回滚，涉及私有 chart 仓库。", "skill_view_name": "devops/k8s-helm-internal", "file_path": null, "negative": ["generic-helm-public"], "notes": "优先内网流程"}
+{"id": "ex-002", "text": "需要根据公司模板写 Python 单测，并接 CI。", "skill_view_name": "software-development/test-driven-development", "file_path": null, "negative": [], "notes": ""}
