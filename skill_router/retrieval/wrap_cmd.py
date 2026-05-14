@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import sys
 
-from skill_router.query import run_query
-from skill_router.store import DEFAULT_DISTANCE_THRESHOLD
+from skill_router.retrieval.query import run_query
+from skill_router.core.store import DEFAULT_DISTANCE_THRESHOLD
 
 
 def run_wrap(

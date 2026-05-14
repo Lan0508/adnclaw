@@ -5,11 +5,11 @@ from __future__ import annotations
 from pathlib import Path
 from typing import List, Tuple
 
-from skill_router.bm25 import BM25Index, get_bm25_path
-from skill_router.embedder import Embedder
-from skill_router.hints import format_routing_hints
-from skill_router.schema import metadata_to_hit
-from skill_router.store import DEFAULT_DISTANCE_THRESHOLD, get_collection
+from skill_router.retrieval.bm25 import BM25Index, get_bm25_path
+from skill_router.core.embedder import Embedder
+from skill_router.core.hints import format_routing_hints
+from skill_router.core.schema import metadata_to_hit
+from skill_router.core.store import DEFAULT_DISTANCE_THRESHOLD, get_collection
 
 TOP_K = 3
 

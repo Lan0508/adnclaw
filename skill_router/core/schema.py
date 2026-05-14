@@ -17,6 +17,14 @@ class ScenarioRecord:
     notes: str
 
 
+@dataclass
+class GoldenCase:
+    id: str
+    query: str
+    correct_skill: str
+    context: str
+
+
 def parse_record(raw: dict[str, Any], line_no: int) -> ScenarioRecord:
     if not isinstance(raw, dict):
         raise ValueError(f"line {line_no}: record must be a JSON object")
@@ -87,3 +95,40 @@ def metadata_to_hit(text: str, meta: dict[str, Any]) -> dict[str, Any]:
         "negative": [str(x) for x in negative],
         "notes": str(meta.get("notes", "") or ""),
     }
+
+
+def parse_golden(raw: dict[str, Any], line_no: int) -> GoldenCase:
+    if not isinstance(raw, dict):
+        raise ValueError(f"line {line_no}: golden case must be a JSON object")
+
+    gid = str(raw.get("id", "")).strip()
+    if not gid:
+        raise ValueError(f"line {line_no}: missing non-empty 'id'")
+
+    query = str(raw.get("query", "")).strip()
+    if not query:
+        raise ValueError(f"line {line_no}: missing non-empty 'query'")
+
+    correct_skill = str(raw.get("correct_skill", "")).strip()
+    if not correct_skill:
+        raise ValueError(f"line {line_no}: missing non-empty 'correct_skill'")
+
+    context = str(raw.get("context", "") or "").strip()
+
+    return GoldenCase(
+        id=gid,
+        query=query,
+        correct_skill=correct_skill,
+        context=context,
+    )
+
+
+def golden_to_scenario(golden: GoldenCase) -> ScenarioRecord:
+    return ScenarioRecord(
+        id=f"auto-{golden.id}",
+        text=golden.query,
+        skill_view_name=golden.correct_skill,
+        file_path=None,
+        negative=[],
+        notes=golden.context or "auto-generated from golden case",
+    )

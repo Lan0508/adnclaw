@@ -6,10 +6,10 @@ import json
 from pathlib import Path
 from typing import List
 
-from skill_router.bm25 import BM25Index, get_bm25_path
-from skill_router.embedder import Embedder
-from skill_router.schema import parse_record, record_to_chroma_metadata
-from skill_router.store import COLLECTION_NAME, delete_collection_if_exists, get_client
+from skill_router.retrieval.bm25 import BM25Index, get_bm25_path
+from skill_router.core.embedder import Embedder
+from skill_router.core.schema import parse_record, record_to_chroma_metadata
+from skill_router.core.store import COLLECTION_NAME, delete_collection_if_exists, get_client
 
 
 def load_jsonl(path: Path) -> List[dict]:

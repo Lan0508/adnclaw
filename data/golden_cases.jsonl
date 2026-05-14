@@ -1,0 +1,5 @@
+{"id": "gc-001", "query": "Helm部署应用回滚", "correct_skill": "devops/k8s-helm-internal", "context": "内网私有chart仓库"}
+{"id": "gc-002", "query": "写Python单元测试", "correct_skill": "software-development/test-driven-development", "context": "公司模板"}
+{"id": "gc-003", "query": "帮我做代码审查", "correct_skill": "code-review", "context": ""}
+{"id": "gc-004", "query": "检查代码质量问题", "correct_skill": "code-review", "context": ""}
+{"id": "gc-005", "query": "部署Kubernetes应用", "correct_skill": "devops/k8s-deploy", "context": ""}
