@@ -6,9 +6,10 @@ import json
 from pathlib import Path
 from typing import List
 
+from skill_router.bm25 import BM25Index, get_bm25_path
 from skill_router.embedder import Embedder
 from skill_router.schema import parse_record, record_to_chroma_metadata
-from skill_router.store import delete_collection_if_exists, get_client
+from skill_router.store import COLLECTION_NAME, delete_collection_if_exists, get_client
 
 
 def load_jsonl(path: Path) -> List[dict]:
@@ -63,5 +64,12 @@ def run_build(
         documents=texts,
         metadatas=metadatas,
     )
+
+    bm25_index = BM25Index()
+    for r in parsed:
+        bm25_index.add(r.id, r.text)
+    bm25_index.build()
+    bm25_index.save(get_bm25_path(chroma_dir))
+
     print(f"Indexed {len(parsed)} scenario(s) into {chroma_dir} (collection={COLLECTION_NAME}).")
     return 0

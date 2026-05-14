@@ -6,6 +6,8 @@ import chromadb
 
 COLLECTION_NAME = "skill_scenarios"
 
+DEFAULT_DISTANCE_THRESHOLD = 1.0
+
 
 def get_client(chroma_dir: str) -> chromadb.PersistentClient:
     return chromadb.PersistentClient(path=chroma_dir)

@@ -8,6 +8,7 @@ from pathlib import Path
 
 from skill_router.build import run_build
 from skill_router.query import TOP_K, run_query
+from skill_router.store import DEFAULT_DISTANCE_THRESHOLD
 from skill_router.wrap_cmd import run_wrap
 
 
@@ -45,6 +46,17 @@ def main(argv: list[str] | None = None) -> int:
 
     p_query = sub.add_parser("query", help=f"Print routing hints for a question (Top-{TOP_K})")
     p_query.add_argument("--question", required=True, help="User question text")
+    p_query.add_argument(
+        "--threshold",
+        type=float,
+        default=DEFAULT_DISTANCE_THRESHOLD,
+        help=f"Max L2 distance threshold (default: {DEFAULT_DISTANCE_THRESHOLD}); results with larger distance are filtered out",
+    )
+    p_query.add_argument(
+        "--hybrid",
+        action="store_true",
+        help="Enable hybrid search (vector + BM25) using RRF fusion",
+    )
 
     p_wrap = sub.add_parser(
         "wrap",
@@ -54,6 +66,17 @@ def main(argv: list[str] | None = None) -> int:
         "--question",
         default=None,
         help="User message; if omitted, read entire stdin",
+    )
+    p_wrap.add_argument(
+        "--threshold",
+        type=float,
+        default=DEFAULT_DISTANCE_THRESHOLD,
+        help=f"Max L2 distance threshold (default: {DEFAULT_DISTANCE_THRESHOLD})",
+    )
+    p_wrap.add_argument(
+        "--hybrid",
+        action="store_true",
+        help="Enable hybrid search (vector + BM25)",
     )
 
     args = parser.parse_args(argv)
@@ -68,11 +91,23 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     if args.command == "query":
-        out = run_query(args.question, chroma_dir, model_name=args.model)
+        out = run_query(
+            args.question,
+            chroma_dir,
+            model_name=args.model,
+            threshold=args.threshold,
+            hybrid=args.hybrid,
+        )
         print(out)
         return 0
 
     if args.command == "wrap":
-        return run_wrap(args.question, chroma_dir, model_name=args.model)
+        return run_wrap(
+            args.question,
+            chroma_dir,
+            model_name=args.model,
+            threshold=args.threshold,
+            hybrid=args.hybrid,
+        )
 
     return 2

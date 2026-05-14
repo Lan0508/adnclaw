@@ -8,6 +8,8 @@ from typing import List
 import numpy as np
 
 
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+
 DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
